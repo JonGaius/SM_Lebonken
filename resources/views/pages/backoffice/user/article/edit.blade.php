@@ -120,7 +120,7 @@
             </div>
             <div class="col-12 col-md-6 col-lg-8 pr-0">
                 <div class="card w-100 p-3">
-                    <h5>Information sur le produit</h5>
+                    <h5>Information sur l'article</h5>
                     <form action="{{route('article.update.information', $article->slug)}}" class="w-100 mt-2" method="POST">
                         @method('PATCH')
                         @csrf
@@ -156,6 +156,42 @@
                                 </span>
                                 @enderror
                             </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="description" class="col-sm-3 col-form-label text-right">Description de l'article</label>
+                            <div class="col-sm-9">
+                                <textarea type="number" class="form-control @error('description') is-invalid @enderror" id="description" name="description" placeholder="Description de l'article">{{old('description') ?? $article->description}}</textarea>
+                                @error('description')
+                                <span class="invalid-feedback">
+                                   {{$message}}
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="quantity" class="col-sm-3 col-form-label text-right">Quantité</label>
+                            <div class="col-sm-9">
+                                <input type="number" class="form-control @error('quantity') is-invalid @enderror" placeholder="ex: 1500" name="quantity" id="quantity" value="{{old('quantity') ?? $article->quantity}}">
+                                @error('quantity')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="livraison" class="col-sm-3 col-form-label text-right">Prix de la livraison <br>(0 si c'est gratuit)</label>
+                            <div class="col-sm-9">
+                                <input type="number" class="form-control @error('livraison') is-invalid @enderror" placeholder="ex: 1500" name="livraison" id="livraison" value="{{old('livraison')  ?? $article->livraison}}">
+                                @error('livraison')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-12 text-right pr-2 m-2">
+                            <button type="submit" class="btn btn-primary" style="text-transform: none">Sauvegarder les modifications</button>
                         </div>
                     </form>
                 </div>

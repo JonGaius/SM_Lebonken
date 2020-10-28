@@ -58,7 +58,35 @@ class ArticlesController extends Controller
         return back()->with('success','Les images ont bien été modifiées');
     }
     public function updateInformation(Request $request, $ref){
-        dd($request);
+        $article = Article::where('slug',$ref)->firstOrFail();
+        request()->validate([
+            'name' => 'required|max:140',
+            'price' => 'required|integer',
+            'condition' => 'required|integer|max:10|min:1',
+            'quantity' => 'required|integer|min:0',
+            'livraison' => 'required|integer|min:0',
+            'description' => 'required', 
+        ]);
+
+        if($article->name != $request['name']){
+            $article->update([
+                'slug' => slugUnique($request['name'])
+            ]);
+        }
+        $article->update([
+            'name' => $request['name'],
+            'price' => $request['price'],
+            'condition' => $request['condition'],
+            'description' => $request['description'], 
+            'quantity' => $request['quantity'], 
+            'livraison' => $request['livraison'], 
+        ]);
+
+        if($article->boutique == true){
+            return redirect(route('boutique.article.edit',$article->slug))->with('success','Les images ont bien été modifiées');
+        }else{
+            return redirect(route('user.article.edit',$article->slug))->with('success','Les images ont bien été modifiées');
+        }    
     }
     public function updateAttribute(Request $request, $ref){
         
