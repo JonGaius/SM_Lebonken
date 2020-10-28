@@ -160,7 +160,7 @@
                         <div class="form-group row">
                             <label for="description" class="col-sm-3 col-form-label text-right">Description de l'article</label>
                             <div class="col-sm-9">
-                                <textarea type="number" class="form-control @error('description') is-invalid @enderror" id="description" name="description" placeholder="Description de l'article">{{old('description') ?? $article->description}}</textarea>
+                                <textarea type="number" class="form-control @error('description') is-invalid @enderror" id="description" name="description" placeholder="Description de l'article" style="height: 150px; resize: none">{{old('description') ?? $article->description}}</textarea>
                                 @error('description')
                                 <span class="invalid-feedback">
                                    {{$message}}
@@ -194,6 +194,33 @@
                             <button type="submit" class="btn btn-primary" style="text-transform: none">Sauvegarder les modifications</button>
                         </div>
                     </form>
+                </div>
+                <div class="card w-100 p-3 mt-3">
+                    <h5>Caractéristiques de l'article</h5>
+                    @if ($article->attributes->count() > 0)
+                    <form action="{{route('article.update.attribut',$article->slug)}}" method="POST" class="mt-3 w-100">
+                        @method('PATCH')
+                        @csrf
+                        @foreach ($article->attributes as $item)
+                        <div class="form-group row">
+                            <label for="livraison" class="col-sm-3 col-form-label text-right">{{$item->subcategoryattribute->name}}</label>
+                            <div class="col-sm-9">
+                                <input type="hidden" name="subattribute[]" value="{{$item->subcategoryattribute->ref}}">
+                                <input type="{{$item->subcategoryattribute->type}}" class="form-control" name="value[]" id="livraison" value="{{$item->value}}">
+                            </div>
+                            
+                        </div>
+                        @endforeach
+                        <div class="col-12 text-right pr-2 m-2">
+                            <button type="submit" class="btn btn-primary" style="text-transform: none">Sauvegarder les modifications</button>
+                        </div>
+                    </form>
+                    @else
+                        <p class="text-center mt-2">
+                            Aucune Caractéristique
+                        </p>
+                    @endif
+                    
                 </div>
             </div>
            
